@@ -6,41 +6,80 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <div class="show">0</div>
+    <div class="container" id="app">
+        <div class="show" ><input v-model="current"></div><!-- 改input -->
         <div class="funtionBtn">
-            <button>AC</button>
-            <button>+/-</button>
+            <button >AC</button>
+            <button @click="plus">+/-</button>
             <button>%</button>
-            <button>÷</button>
+            <button @click="division">÷</button>
         </div>
         <div class="numBtn">
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>×</button>
+            <button @click="append('7')">7</button>
+            <button @click="append('8')">8</button>
+            <button @click="append('9')">9</button>
+            <button @click="multiplication">×</button>
         </div>
         <div class="numBtn">
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>-</button>
+            <button @click="append('4')">4</button>
+            <button @click="append('5')">5</button>
+            <button @click="append('6')">6</button>
+            <button @click="minus">-</button>
         </div>
         <div class="numBtn">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
+            <button @click="append('1')">1</button>
+            <button @click="append('2')">2</button>
+            <button @click="append('3')">3</button>
             <button>+</button>
         </div>
         <div class="numBtn4">
-            <button>0</button>
+            <button @click="append('0')">0</button>
             <button>.</button>
-            <button>=</button>
+            <button @click="">=</button>
         </div>
     </div>
+    <script>
+        const app = {
+          data() {
+            return {
+              current: '',
+              previous: '',
+              operator: null,
+              operatorClicked: false
+            };
+          },
+          methods: {
+            append(number){
+                if (this.operatorClicked) this.current = "";
+                this.operatorClicked = false;
+                this.current=
+                this.current = this.current === 0 ? `${number}` : `${this.current}${number}`;
+            },
+            plus(){
+                this.operator = (a,b) => a+b;
+                this.setPrevious();
+            },
+            setPrevious(){
+                this.previous = this.current;
+                this.operatorClicked = true;
+            },
+            minus(){
+                this.operator = (a,b) => a-b;
+            },
+            multiplication(){
+                this.operator = (a,b) => a*b;
+            },
+            division(){
+                this.operator = (a,b) => a/b;
+            }
+          }
+        };
+        Vue.createApp(app).mount("#app");
+      </script>
 </body>
 </html>
